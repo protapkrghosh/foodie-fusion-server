@@ -28,19 +28,28 @@ async function run() {
       // Get the database and collection on which to run the operation
       const menuCollection = client.db("foodieDB").collection("menu");
       const reviewsCollection = client.db("foodieDB").collection("reviews");
+      const cartCollection = client.db("foodieDB").collection("carts");
 
-     app.get('/menu', async (req, res) => {
-       const result = await menuCollection.find().toArray();
-       res.send(result);
-     })
+      // Menu
+      app.get("/menu", async (req, res) => {
+         const result = await menuCollection.find().toArray();
+         res.send(result);
+      });
 
-     app.get('/reviews', async (req, res) => {
-       const result = await reviewsCollection.find().toArray();
-       res.send(result);
-     })
-     
-     
-     
+      // Reviews
+      app.get("/reviews", async (req, res) => {
+         const result = await reviewsCollection.find().toArray();
+         res.send(result);
+      });
+
+      // Cart
+      app.post("/carts", async (req, res) => {
+         const item = req.body;
+         console.log(item, req);
+         const result = await cartCollection.insertOne(item);
+         res.send(result);
+      });
+
       // Send a ping to confirm a successful connection
       await client.db("admin").command({ ping: 1 });
       console.log(
