@@ -26,23 +26,31 @@ async function run() {
       await client.connect();
 
       // Get the database and collection on which to run the operation
+      const usersCollection = client.db("foodieDB").collection("users");
       const menuCollection = client.db("foodieDB").collection("menu");
       const reviewsCollection = client.db("foodieDB").collection("reviews");
       const cartCollection = client.db("foodieDB").collection("carts");
 
-      // Menu API
+      //  Users related API
+      app.post("/users", async (req, res) => {
+         const user = req.body;
+         const result = await usersCollection.insertOne(user);
+         res.send(result);
+      });
+
+      // Menu related API
       app.get("/menu", async (req, res) => {
          const result = await menuCollection.find().toArray();
          res.send(result);
       });
 
-      // Reviews API
+      // Reviews related API
       app.get("/reviews", async (req, res) => {
          const result = await reviewsCollection.find().toArray();
          res.send(result);
       });
 
-      // Cart API
+      // Cart related API
       app.get("/carts", async (req, res) => {
          const email = req.query.email;
          if (!email) {
