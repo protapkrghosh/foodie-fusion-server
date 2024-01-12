@@ -30,19 +30,29 @@ async function run() {
       const reviewsCollection = client.db("foodieDB").collection("reviews");
       const cartCollection = client.db("foodieDB").collection("carts");
 
-      // Menu
+      // Menu API
       app.get("/menu", async (req, res) => {
          const result = await menuCollection.find().toArray();
          res.send(result);
       });
 
-      // Reviews
+      // Reviews API
       app.get("/reviews", async (req, res) => {
          const result = await reviewsCollection.find().toArray();
          res.send(result);
       });
 
-      // Cart
+     // Cart API
+     app.get("/carts", async (req, res) => {
+       const email = req.query.email;
+       if (!email) {
+         res.send([]);
+       }
+       const query = { email: email }
+       const result = await cartCollection.find(query).toArray();
+       res.send(result);
+     })
+
       app.post("/carts", async (req, res) => {
          const item = req.body;
          console.log(item, req);
