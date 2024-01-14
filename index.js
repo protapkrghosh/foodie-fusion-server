@@ -55,11 +55,11 @@ async function run() {
             $set: {
                role: "admin",
             },
-        };
-        const result = await usersCollection.updateOne(filter, updateDoc);
-        res.send(result);
+         };
+         const result = await usersCollection.updateOne(filter, updateDoc);
+         res.send(result);
       });
-     
+
       app.patch("/users/:id", async (req, res) => {
          const id = req.params.id;
          const filter = { _id: new ObjectId(id) };
@@ -67,8 +67,15 @@ async function run() {
             $set: {
                role: "user",
             },
-        };
-        const result = await usersCollection.updateOne(filter, updateDoc);
+         };
+         const result = await usersCollection.updateOne(filter, updateDoc);
+         res.send(result);
+      });
+
+      app.delete("/users/:id", async (req, res) => {
+         const id = req.params.id;
+        const query = { _id: new ObjectId(id) };
+        const result = await usersCollection.deleteOne(query);
         res.send(result);
       });
 
