@@ -59,6 +59,18 @@ async function run() {
         const result = await usersCollection.updateOne(filter, updateDoc);
         res.send(result);
       });
+     
+      app.patch("/users/:id", async (req, res) => {
+         const id = req.params.id;
+         const filter = { _id: new ObjectId(id) };
+         const updateDoc = {
+            $set: {
+               role: "user",
+            },
+        };
+        const result = await usersCollection.updateOne(filter, updateDoc);
+        res.send(result);
+      });
 
       // Menu related API
       app.get("/menu", async (req, res) => {
