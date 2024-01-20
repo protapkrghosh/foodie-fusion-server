@@ -96,10 +96,12 @@ async function run() {
          res.send(result);
       });
 
-      //  Security layer
-      //  verifyJWT
-      //  email same
-      //  check admin
+      /*
+        Security layer
+        verifyJWT
+        email same
+        check admin
+      */
       app.get("/users/admin/:email", verifyJWT, async (req, res) => {
          const email = req.params.email;
          if (req.decoded.email !== email) {
