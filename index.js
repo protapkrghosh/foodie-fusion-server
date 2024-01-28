@@ -203,13 +203,13 @@ async function run() {
       });
 
       // Payment method intent
-      app.post("/create-payment-intent", async (req, res) => {
+      app.post("/create-payment-intent", verifyJWT, async (req, res) => {
          const { price } = req.body;
          const amount = price * 100;
          const paymentIntent = await stripe.paymentIntents.create({
             amount: amount,
-            currency: "USD",
-            payment_method_type: ["card"],
+            currency: "usd",
+            payment_method_types: ["card"],
          });
 
          res.send({
