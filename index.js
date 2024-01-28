@@ -52,6 +52,7 @@ async function run() {
       const menuCollection = client.db("foodieDB").collection("menu");
       const reviewsCollection = client.db("foodieDB").collection("reviews");
       const cartCollection = client.db("foodieDB").collection("carts");
+      const paymentCollection = client.db("foodieDB").collection("payments");
 
       app.post("/jwt", (req, res) => {
          const user = req.body;
@@ -215,6 +216,13 @@ async function run() {
          res.send({
             clientSecret: paymentIntent.client_secret,
          });
+      });
+
+      //  Payment related API
+      app.post("/payments", verifyJWT, async (req, res) => {
+         const payment = req.body;
+         const result = await paymentCollection.insertOne(payment);
+         res.send(result);
       });
 
       // Send a ping to confirm a successful connection
